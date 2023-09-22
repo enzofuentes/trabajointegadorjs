@@ -1,62 +1,60 @@
-const products = [ 
-  {
-      "id": 1,
-      "name": "Indumentaria buzo 1",
-      "price": 13500,
-      "description": "buzo oversize negro",
-      "image": "Indumentaria-buzo-1.webp"
-  },
-  {
-      "id": 2,
-      "name": "Indumentaria buzo 2",
-      "price": 13500,
-      "description": "buzo oversize blanco crema",
-      "image": "Indumentaria-buzo-2.webp"
-  },
-  {
-      "id": 3,
-      "name": "Indumentaria buzo 3",
-      "price": 13500,
-      "description": "buzo oversize negro not you",
-      "image": "Indumentaria-buzo-3.webp"
-  },
-  {
-      "id": 4,
-      "name": "remera",
-      "price": 9000,
-      "description": "remera negra trasher",
-      "image": "remera-1.webp"
-  },
-  {
-      "id": 5,
-      "name": "gorra",
-      "price": 3500,
-      "description": "gorra negra oneil",
-      "image": "gorra-1.jpg"
-  }
-];
-
+const Product = require('../database/models/Products'); 
+const path = require ('path');
 const controller = {
-  crear: (req, res) => {
-      res.json('crear un producto');
-  },
-  listar: (req, res) => {
-      res.json(products);
-  },
-  detalle: (req, res) => {
-      const productId = parseInt(req.params.id);
-      const product = products.find((product) => product.id === productId);
+    crear: async (req, res) => {
+        try {
+            let product = {
+                name: req.body.name,
+                price: req.body.price,
+                discount: req.body.discount,
+                category: req.body.category,
+                description: req.body.description,
+                image: req.file.filename,
+                colors: ['Negro', 'Rojo', 'Gris']
+            }
 
-    if (product) {
-         res.json(product);
-     } else {
-          res.json({ error: 'Producto no encontrado' });
+            const productDatabase = await Product.create(product);
+            res.status(201).json(productDatabase);
+
+        } catch(error) {
+            if (error.errors.name) {
+                return res.status(400).json({message: 'Falta el campo name'});
+            }
+            res.status(500).json({message: 'Internal server error'});
+        }
+    },
+    update: async (req, res) => {
+       let producto= await Product.findById({_id: req.params.id});
+       
+       let image = producto.image;
+       
+       if(req.file) {
+           if (image !== 'image-default.png') {
+           fs.unlinkSync (path.resolve(__dirname, `../../public/images/products/${image}`));
+       }
+       image= req.file.filename
+       }
+       
+       
+        const product = await Product.findByIdAndUpdate(req.params.id, req.body);
+        return res.status(200).json(product);
+    },
+    listar: async (req, res) => {
+        const products = await Product.find({});
+        res.status(200).json(products);
+    },
+    detalle: async (req, res) => {
+      try {
+          const productId = req.params.id;
+          const product = await Product.findById(productId);
+          if (product) {
+              res.status(200).json(product);
+          } else {
+              res.status(404).json({ message: 'Producto no encontrado' });
+          }
+      } catch (error) {
+          res.status(500).json({ message: 'Error al obtener el detalle del producto' });
       }
   },
-};
-
-
-//module.exports = controller;
-
-
+}
 module.exports = controller;

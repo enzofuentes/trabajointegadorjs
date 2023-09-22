@@ -1,37 +1,32 @@
-[ 
+[
     {
-        "id": 1,
         "name": "Indumentaria buzo 1",
         "price": 13500,
         "description": "buzo oversize negro",
-        "image": "Indumentaria-buzo-1.webp"
+        "image": "./images/Indumentaria-buzo-1.webp"
     },
     {
-        "id": 2,
         "name": "Indumentaria buzo 2",
         "price": 13500,
         "description": "buzo oversize blanco crema",
-        "image": "Indumentaria-buzo-2.webp"
+        "image": "./images/Indumentaria-buzo-2.webp"
     },
     {
-        "id": 3,
         "name": "Indumentaria buzo 3",
         "price": 13500,
         "description": "buzo oversize negro not you",
-        "image": "Indumentaria-buzo-3.webp"
+        "image": "./images/Indumentaria-buzo-3.webp"
     },
     {
-        "id": 4,
         "name": "remera",
         "price": 9000,
         "description": "remera negra trasher",
-        "image": "remera-1.webp"
+        "image": "./images/remera-1.webp"
     },
     {
-        "id": 5,
         "name": "gorra",
         "price": 3500,
         "description": "gorra negra oneil",
-        "image": "gorra-1.jpg"
+        "image": "./images/gorra-1.jpg"
     }
 ]
