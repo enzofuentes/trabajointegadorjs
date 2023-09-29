@@ -1,7 +1,10 @@
 const Product = require('../database/models/Products'); 
 const path = require ('path');
+const console = require('console');
+
 const controller = {
     crear: async (req, res) => {
+        console.log('La controladora está corriendo en el puerto 3005');
         try {
             let product = {
                 name: req.body.name,
@@ -24,6 +27,7 @@ const controller = {
         }
     },
     update: async (req, res) => {
+        console.log('La controladora está corriendo en el puerto 3005');
        let producto= await Product.findById({_id: req.params.id});
        
        let image = producto.image;

@@ -1,8 +1,12 @@
 const path = require('path');
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose')
 const productsRoutes = require('./routes/productsRoutes');
+
+
+
 // Conectarse a la base de datos
 mongoose.connect('mongodb://127.0.0.1:27017/trabajointegrador', {
     useNewUrlParser: true,
@@ -17,8 +21,10 @@ mongoose.connect('mongodb://127.0.0.1:27017/trabajointegrador', {
 
 /* Configuraciones */
 app.use(express.static(path.resolve(__dirname, '../public')));
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cors());
 
 
 /* Rutas */
